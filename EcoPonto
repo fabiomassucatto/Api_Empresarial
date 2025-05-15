@@ -1,0 +1,107 @@
+# fabio henrique massucatto sousa
+import sys
+import os
+import time
+
+class EcoPonto:
+    def __init__(self, you_name, registration, madeira, vidro, papelao, plastico):
+        self.you_name = you_name
+        self.registration = registration  # Deve ser uma lista
+        self.madeira = madeira
+        self.vidro = vidro
+        self.papelao = papelao
+        self.plastico = plastico
+
+class MenuPrincipal(EcoPonto):
+    def __init__(self, you_name, registration, madeira, vidro, papelao, plastico):
+        super().__init__(you_name, registration, madeira, vidro, papelao, plastico)
+
+    def menu(self):
+        while True:
+            try:
+                opcao = int(input('''
+Olá, sou o dono do Ecoponto. O que gostaria hoje, meu patrão?
+0 - Sair
+1 - Adicionar item
+2 - Remover item
+3 - Ver itens
+'''))
+            except ValueError:
+                print("Digite um número válido.")
+                continue
+
+            if opcao == 0:
+                print("Saindo... Obrigado por usar o Ecoponto!")
+                break
+            elif opcao == 1:
+                self.adicionar_item()
+            elif opcao == 2:
+                self.remover_item()
+            elif opcao == 3:
+                self.ver_itens()
+            else:
+                print("Opção inválida. Tente novamente.")
+
+    def adicionar_item(self):
+        materiais = {
+            1: ('Madeira', self.madeira),
+            2: ('Vidro', self.vidro),
+            3: ('Papelao', self.papelao),
+            4: ('Plastico', self.plastico)
+        }
+        while True:
+            try:
+                opcao2 = int(input('''
+Qual material deseja cadastrar?
+0 - Voltar
+1 - Madeira
+2 - Vidro
+3 - Papelao
+4 - Plastico
+'''))
+            except ValueError:
+                print("Digite um número válido.")
+                continue
+
+            if opcao2 == 0:
+                break
+            elif opcao2 in materiais:
+                nome = input("Qual o seu nome para cadastrar? ")
+                try:
+                    quantidade = int(input("Quantas unidades? "))
+                except ValueError:
+                    print("Digite uma quantidade válida.")
+                    continue
+                material_nome, preco = materiais[opcao2]
+                total = quantidade * preco
+                registro = {
+                    'nome': nome,
+                    'Material': material_nome,
+                    'Quantidade': quantidade,
+                    'total': total
+                }
+                self.registration.append(registro)
+                print(f"Item cadastrado: {registro}")
+            else:
+                print("Opção inválida. Tente novamente.")
+
+    def remover_item(self):
+        nome = input("Digite o nome do usuário que deseja deletar: ")
+        for i in self.registration:
+            if i['nome'] == nome:
+                self.registration.remove(i)
+                print(f"Item removido: {i}")
+                break
+        else:
+            print("Usuário não encontrado.")
+
+    def ver_itens(self):
+        if not self.registration:
+            print("Nenhum item cadastrado.")
+        else:
+            print("Itens cadastrados:")
+            for item in self.registration:
+                print(item)
+
+client = MenuPrincipal('fabio', [], 5.99, 4.99, 3.99, 5.00)
+client.menu()
