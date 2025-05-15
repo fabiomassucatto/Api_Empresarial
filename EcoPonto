@@ -6,7 +6,7 @@ import time
 class EcoPonto:
     def __init__(self, you_name, registration, madeira, vidro, papelao, plastico):
         self.you_name = you_name
-        self.registration = registration  # Deve ser uma lista
+        self.registration = registration  
         self.madeira = madeira
         self.vidro = vidro
         self.papelao = papelao
